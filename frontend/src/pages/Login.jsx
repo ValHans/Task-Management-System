@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     // State untuk menyimpan input
@@ -28,7 +29,7 @@ const Login = () => {
 
         }   catch (err) {
             setError('Login Failed, Please check your email and password again.');
-            console.error('Login error:', err.response.data)
+            console.error('Login error:', err.response ? err.response.data : err)
         }
     };
 
@@ -66,6 +67,13 @@ const Login = () => {
                         >
                             Login
                     </button>
+
+                    <p className="text-center text-sm mt-4 text-white">
+                        Belum punya akun?{" "}
+                        <Link to="/register" className="text-blue-400 hover:underline">
+                            Daftar di sini
+                        </Link>
+                    </p>
                 </form>
             </div>
         </div>

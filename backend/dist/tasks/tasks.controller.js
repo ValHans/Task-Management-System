@@ -18,6 +18,8 @@ const tasks_service_1 = require("./tasks.service");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
 const create_task_dto_1 = require("./dto/create-task.dto");
 const update_task_dto_1 = require("./dto/update-task.dto");
+const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
+const user_entity_1 = require("../users/user.entity");
 let TasksController = class TasksController {
     tasksService;
     constructor(tasksService) {
@@ -28,20 +30,20 @@ let TasksController = class TasksController {
         const created_by = req.user.email;
         return this.tasksService.create(user_id, created_by, dto);
     }
-    findAll(req, status, sort) {
+    findAll(req, status, sort, start, end) {
         const user_id = req.user.user_id;
-        return this.tasksService.findAllForUser(user_id, status, sort);
+        return this.tasksService.findAllForUser(user_id, status, sort, start, end);
     }
     findOne(req, id) {
         const user_id = req.user.user_id;
         return this.tasksService.findOneForUser(user_id, id);
     }
-    update(req, id, dto) {
-        const user_id = req.user.user_id;
+    update(user, id, dto) {
+        const user_id = user.user_id;
         return this.tasksService.update(user_id, id, dto);
     }
-    remove(req, id) {
-        const user_id = req.user.user_id;
+    remove(user, id) {
+        const user_id = user.user_id;
         return this.tasksService.remove(user_id, id);
     }
 };
@@ -59,8 +61,10 @@ __decorate([
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Query)('status')),
     __param(2, (0, common_1.Query)('sort')),
+    __param(3, (0, common_1.Query)('start')),
+    __param(4, (0, common_1.Query)('end')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String]),
+    __metadata("design:paramtypes", [Object, String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], TasksController.prototype, "findAll", null);
 __decorate([
@@ -73,19 +77,19 @@ __decorate([
 ], TasksController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Request)()),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, update_task_dto_1.UpdateTaskDto]),
+    __metadata("design:paramtypes", [user_entity_1.User, String, update_task_dto_1.UpdateTaskDto]),
     __metadata("design:returntype", void 0)
 ], TasksController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Request)()),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [user_entity_1.User, String]),
     __metadata("design:returntype", void 0)
 ], TasksController.prototype, "remove", null);
 exports.TasksController = TasksController = __decorate([

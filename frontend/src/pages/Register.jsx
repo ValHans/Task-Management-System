@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
     const [name, setName] = useState('') ;
@@ -10,17 +10,18 @@ const Register = () => {
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
-        e.preventdefault();
-        setError('');
+        e.preventDefault();
+        setError("");
 
         try{
-            await axios.post('http://localhost3000/auth/register', {
+            await axios.post('http://localhost:3000/auth/register', {
                 name,
                 email,
                 password,
             });
 
-            navigate('/login')
+            alert('Registration successful! Please login.');
+            navigate('/login');
         } catch (err) {
             setError('Registration failed. Please try again.');
             console.error('Registration error:', err.response.data)
@@ -42,12 +43,19 @@ const Register = () => {
                         <input type="text" id="email" className="w-full px-3 py-2 bg-slate-700 rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="password" className="block mb-2"></label>
+                        <label htmlFor="password" className="block mb-2">Password</label>
                         <input type="text" id="password" className="w-full px-3 py-2 bg-slate-700 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     </div>
                     <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
                         Register
                     </button>
+
+                    <p className="text-center text-sm mt-4 text-white">
+                        Sudah punya akun?{" "}
+                        <Link to="/login" className="text-blue-400 hover:underline">
+                            Login di sini
+                        </Link>
+                    </p>
                 </form>
             </div>
         </div>

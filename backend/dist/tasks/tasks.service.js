@@ -19,43 +19,43 @@ const typeorm_2 = require("typeorm");
 const task_entity_1 = require("./task.entity");
 let TasksService = class TasksService {
     taskRepo;
-    createTask;
     constructor(taskRepo) {
         this.taskRepo = taskRepo;
     }
     async create(user_id, created_by, dto) {
         const entity = this.taskRepo.create({
-            title: dto.title,
-            description: dto.description,
-            status: dto.status || 'To Do',
+            ...dto,
             deadline: dto.deadline ? new Date(dto.deadline) : undefined,
             created_by,
             user: { user_id },
         });
         return this.taskRepo.save(entity);
     }
-    async findAllForUser(user_id, status, sortByDeadline) {
-        const qb = this.taskRepo.createQueryBuilder('task').where('task.user_id = :user_id', { user_id });
-        if (status)
+    async findAllForUser(user_id, status, sortByDeadline, startDate, endDate) {
+        const qb = this.taskRepo
+            .createQueryBuilder('task')
+            .where('task.user_id = :user_id', { user_id });
+        if (status) {
             qb.andWhere('task.status = :status', { status });
-        if (sortByDeadline)
+        }
+        if (startDate && endDate) {
+            qb.andWhere('task.deadline BETWEEN :startDate AND :endDate', { startDate, endDate });
+        }
+        if (sortByDeadline) {
             qb.orderBy('task.deadline', sortByDeadline.toUpperCase());
+        }
         return qb.getMany();
     }
     async findOneForUser(user_id, task_id) {
-        const task = await this.taskRepo.findOne({ where: { task_id, user_id } });
-        if (!task)
+        const task = await this.taskRepo.findOne({ where: { task_id, user: { user_id } } });
+        if (!task) {
             throw new common_1.NotFoundException('Task not found');
+        }
         return task;
     }
     async update(user_id, task_id, dto) {
         const task = await this.findOneForUser(user_id, task_id);
-        Object.assign(task, {
-            title: dto.title ?? task.title,
-            description: dto.description ?? task.description,
-            status: dto.status ?? task.status,
-            deadline: dto.deadline ? new Date(dto.deadline) : task.deadline,
-        });
+        this.taskRepo.merge(task, dto);
         return this.taskRepo.save(task);
     }
     async remove(user_id, task_id) {

@@ -3,6 +3,8 @@ import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { GetUser } from '../common/decorators/get-user.decorator';
+import { User } from '../users/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tasks')
@@ -17,9 +19,9 @@ export class TasksController {
   }
 
   @Get()
-  findAll(@Request() req: any, @Query('status') status?: string, @Query('sort') sort?: 'asc' | 'desc') {
+  findAll(@Request() req: any, @Query('status') status?: string, @Query('sort') sort?: 'asc' | 'desc', @Query('start') start?: string, @Query('end') end?: string) {
     const user_id = req.user.user_id;
-    return this.tasksService.findAllForUser(user_id, status, sort);
+    return this.tasksService.findAllForUser(user_id, status, sort, start, end);
   }
 
   @Get(':id')
@@ -29,14 +31,14 @@ export class TasksController {
   }
 
   @Patch(':id')
-  update(@Request() req: any, @Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    const user_id = req.user.user_id;
+  update(@GetUser() user: User, @Param('id') id: string, @Body() dto: UpdateTaskDto) {
+    const user_id = user.user_id;
     return this.tasksService.update(user_id, id, dto);
   }
 
   @Delete(':id')
-  remove(@Request() req: any, @Param('id') id: string) {
-    const user_id = req.user.user_id;
+  remove(@GetUser() user: User, @Param('id') id: string) {
+    const user_id = user.user_id;
     return this.tasksService.remove(user_id, id);
   }
 }
