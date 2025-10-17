@@ -109,10 +109,10 @@ Aplikasi ini menggunakan dua tabel utama di database PostgreSQL.
 Berikut adalah beberapa tangkapan layar dari aplikasi.
 
 **1. Halaman Login**
-!(screenshots/login.png)
+![Login](screenshots/login.png)
 
 **2. Halaman Dashboard**
-!(screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
 **3. Modal untuk CRUD Task**
-!(screenshots/task_crud.png)
+![CRUD](screenshots/task_crud.png)
