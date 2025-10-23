@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "ab55c247-6e6a-4312-85b6-439e35a7124a",
+		"name": "Nexa Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48666459",
+		"_collection_link": "https://hansvalerianle-5310813.postman.co/workspace/Ecinel's-Workspace~afbaaf49-82b3-47ce-89f4-b6d3f0c0c19b/collection/48666459-ab55c247-6e6a-4312-85b6-439e35a7124a?action=share&source=collection_link&creator=48666459"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n  \"name\":\"User1\", \r\n  \"email\":\"user1@example.com\", \r\n  \"password\":\"passUser1\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n  \"email\":\"user1@example.com\", \r\n  \"password\":\"passUser1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDhjZDg5NC0yOGI2LTQzZTItYmM4Ny03YTkyNGI5ZjE1MDAiLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYwNTk5NzAzLCJleHAiOjE3NjA4NTg5MDN9.wjBOZ9xuanAdHkcNcwRzxOYlkM01T1dMCZf_525sQDY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Uji Coba 1\",\n  \"description\": \"Mengerjakan fitur Task Management\",\n  \"status\": \"To Do\",\n  \"deadline\": \"2025-11-15\",\n  \"created_by\": \"user1@example.com\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDhjZDg5NC0yOGI2LTQzZTItYmM4Ny03YTkyNGI5ZjE1MDAiLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYwNTk5NzAzLCJleHAiOjE3NjA4NTg5MDN9.wjBOZ9xuanAdHkcNcwRzxOYlkM01T1dMCZf_525sQDY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDhjZDg5NC0yOGI2LTQzZTItYmM4Ny03YTkyNGI5ZjE1MDAiLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYwNTk3MzcyLCJleHAiOjE3NjA4NTY1NzJ9.7f_0c3uqzDMcTvaFeXti-eLW-887WTYgJU0nm9qynTo",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
